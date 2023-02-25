@@ -15,6 +15,7 @@ export default function connect(mapStateToProps) {
         this.reactor = props.reactor || context.reactor
         this.unsubscribeFns = []
         this.updatePropMap(props)
+        this.state = this.stateToSet()
       }
 
       resubscribe(props) {
@@ -22,10 +23,6 @@ export default function connect(mapStateToProps) {
         this.updatePropMap(props)
         this.updateState()
         this.subscribe()
-      }
-
-      componentWillMount() {
-        this.updateState()
       }
 
       componentDidMount() {
@@ -39,8 +36,8 @@ export default function connect(mapStateToProps) {
       updatePropMap(props) {
         this.propMap = (mapStateToProps) ? mapStateToProps(props) : {}
       }
-
-      updateState() {
+      
+      stateToSet() {
         let propMap = this.propMap
         let stateToSet = {}
 
@@ -48,8 +45,12 @@ export default function connect(mapStateToProps) {
           const getter = propMap[key]
           stateToSet[key] = this.reactor.evaluate(getter)
         }
+        
+        return stateToSet
+      }
 
-        this.setState(stateToSet)
+      updateState() {
+        this.setState(this.stateToSet())
       }
 
       subscribe() {
