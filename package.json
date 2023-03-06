@@ -1,5 +1,5 @@
 {
-  "name": "nuclear-js-react-addons-chefsplate",
+  "name": "nuclear-js-react-addons",
   "version": "1.0.2",
   "description": "React addons for nuclear-js",
   "main": "build/index.js",
